@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 // import { Redirect } from 'react-router-dom'
 
 // import axios from 'axios'
 
-import { searchBeer, randoBeer } from './../../api/beer.js'
-
 import Card from 'react-bootstrap/Card'
+// import CardColumns from 'react-bootstrap/CardColumns'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+
+// import SearchBeer from './../SearchFor/SearchFor'
+
+import { searchBeer, randoBeer, oneBeer } from './../../api/beer.js'
+// import { beerIndex } from './../../api/beer.js'
 
 class SearchBeer extends Component {
   constructor (props) {
@@ -15,7 +20,7 @@ class SearchBeer extends Component {
 
     this.state = {
       beers: [],
-      searchedFor: props.searchedFor,
+      searchedFor: '',
       img: '',
       name: '',
       description: '',
@@ -33,16 +38,41 @@ class SearchBeer extends Component {
     this.setState({ searchedFor: event.target.value })
   }
 
+  handleSearchOne = (id, event) => {
+    // const { searchFor } = this.state
+    const { msgAlert } = this.props
+
+    // history.push('/search')
+
+    oneBeer(id)
+      .then(res => {
+        this.setState({ beers: res.data })
+      })
+      .then(() => msgAlert({
+        message: 'Let\'s check it out!',
+        variant: 'success'
+      }))
+      .catch(error => {
+        msgAlert({
+          message: `Couldn't get the brews, because: ${error.message}`,
+          variant: 'danger'
+        })
+      })
+  }
+
   handleSubmitSearch = event => {
     event.preventDefault()
     event.target.reset()
+    // console.log('tik!')
+
     const { searchedFor } = this.state
+    // console.log('this is searchedFor before return', searchedFor)
     const { msgAlert } = this.props
 
-    if (searchedFor === undefined) {
+    if (searchedFor === '') {
       randoBeer()
         .then(res => {
-          console.log('this is res after randoBeer', res)
+          // console.log('this is res after randoBeer', res)
           this.setState({ beers: res.data })
         })
         .then(() => msgAlert({
@@ -74,8 +104,10 @@ class SearchBeer extends Component {
   }
 
   componentDidMount () {
-    const { searchedFor } = this.state
-    const { msgAlert } = this.props
+    const { match, msgAlert } = this.props
+    // const { searchedFor } = this.state
+    const searchedFor = match.params.id
+    console.log('this is searchedFor at search', searchedFor)
 
     if (searchedFor === undefined) {
       randoBeer()
@@ -87,14 +119,12 @@ class SearchBeer extends Component {
           message: 'Looks like you didn\'t search for anything, but thats ok! Here is a rondom beer for you to checkout!',
           variant: 'success'
         }))
-        .catch(error => {
-          msgAlert({
-            message: `Couldn't get the brews, because: ${error.message}`,
-            variant: 'danger'
-          })
-        })
+        .catch(error => msgAlert({
+          message: `Couldn't get the brews, because: ${error.message}`,
+          variant: 'danger'
+        }))
     } else {
-      searchBeer(searchedFor)
+      oneBeer(searchedFor)
         .then(res => {
           this.setState({ beers: res.data })
         })
@@ -125,6 +155,7 @@ class SearchBeer extends Component {
           this.handleSearchOne(beer.id, event)
         }}
         style={{ borderRadius: '7px', boxShadow: ' -.3px .5px 0px .5px grey', display: 'flex', marginLeft: '5px', marginRight: '5px', marginBottom: '20px', padding: '10px', width: '800px' }} >
+          <Card.Title className="clear" style={{ color: '#01d1b2', display: 'flex', justifyContent: 'flex-end' }}>&#9734;</Card.Title>
           <Card.Body className="card-body" style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
             <div>
               <Card.Img src={beer.image_url} style={{ height: '260px', width: '140px' }} alt='image of the selected beer'/>
@@ -148,6 +179,7 @@ class SearchBeer extends Component {
             this.handleSearchOne(beer.id, event)
           }}
           style={{ borderRadius: '7px', boxShadow: ' -.3px .5px 0px .5px grey', display: 'flex', height: '240px', marginLeft: '5px', marginRight: '5px', marginBottom: '20px', padding: '10px', width: '400px' }} >
+          <Card.Title className="clear" style={{ color: '#01d1b2', display: 'flex', justifyContent: 'flex-end' }}>&#9734;</Card.Title>
           <Card.Body className="card-body" style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
             <div>
               <Card.Img src={beer.image_url} style={{ height: '160px', width: '70px' }} alt='image of the selected beer'/>
@@ -195,4 +227,4 @@ class SearchBeer extends Component {
   }
 }
 
-export default SearchBeer
+export default withRouter(SearchBeer)
