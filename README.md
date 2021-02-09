@@ -4,7 +4,7 @@ This Repository is for the simple beer sear application, Beans Love Beer.
 This application allows you to browse a variety of beer options, you can search by style of beer or a beer name if you'd like.  Otherwise, if you're unsure, you can always test your luck with simply clicking the search button and a random beer will be selected for you!
 
 ## Important Links & Resources Used:
-- [Deployed App](https://super-props.github.io/code-laborate-front-end/#/)
+- [Deployed App](https://mgubernick.github.io/beer-browser-mg/)
 
 **Website Resources**
 - [stackOverflow](stackOverflow.com)
