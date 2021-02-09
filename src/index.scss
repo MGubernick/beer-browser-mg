@@ -2,7 +2,21 @@ $primary: #01d1b2;
 $secondary: #3373dc;
 
 @import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap');
 
 .card-body::-webkit-scrollbar {
   width: .5px;
   }
+
+.header-nav {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: bold;
+}
+
+.clear {
+  color: $primary;
+}
+
+.fill {
+  background-color: $primary;
+}

@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
+import { searchBeer, randoBeer } from './../../api/beer.js'
+
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import { beerIndex, searchBeer, randoBeer } from './../../api/beer.js'
-
-class BeerIndex extends Component {
+class Favorites extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       beers: [],
-      searchedFor: '',
+      searchedFor: props.searchedFor,
       img: '',
       name: '',
       description: '',
@@ -25,30 +25,25 @@ class BeerIndex extends Component {
     }
   }
 
-  handleChange = event => {
-    event.persist()
-
-    this.setState({ searchedFor: event.target.value })
-  }
-
-  // changeStar = event => {
-  //   className = 'fill'
-  // }
-
   handleSearchOne = (id, event) => {
     const { history } = this.props
 
     history.push(`/search/${id}`)
   }
 
+  handleChange = event => {
+    event.persist()
+
+    this.setState({ searchedFor: event.target.value })
+  }
+
   handleSubmitSearch = event => {
     event.preventDefault()
     event.target.reset()
-
     const { searchedFor } = this.state
     const { msgAlert } = this.props
 
-    if (searchedFor === '') {
+    if (searchedFor === undefined) {
       randoBeer()
         .then(res => {
           this.setState({ beers: res.data })
@@ -82,21 +77,38 @@ class BeerIndex extends Component {
   }
 
   componentDidMount () {
+    const { searchedFor } = this.state
     const { msgAlert } = this.props
-    beerIndex()
-      .then(res => {
-        this.setState({ beers: res.data })
-      })
-      .then(() => msgAlert({
-        message: 'Welcome to Beans Love Beer!',
-        variant: 'success'
-      }))
-      .catch(error => {
-        msgAlert({
+
+    if (searchedFor === undefined) {
+      randoBeer()
+        .then(res => {
+          this.setState({ beers: res.data })
+        })
+        .then(() => msgAlert({
+          message: 'Welcome To Our Favorites!',
+          variant: 'success'
+        }))
+        .catch(error => msgAlert({
           message: `Couldn't get the brews, because: ${error.message}`,
           variant: 'danger'
+        }))
+    } else {
+      searchBeer(searchedFor)
+        .then(res => {
+          this.setState({ beers: res.data })
         })
-      })
+        .then(() => msgAlert({
+          message: 'Let\'s check it out!',
+          variant: 'success'
+        }))
+        .catch(error => {
+          msgAlert({
+            message: `Couldn't get the brews, because: ${error.message}`,
+            variant: 'danger'
+          })
+        })
+    }
   }
 
   render () {
@@ -134,7 +146,7 @@ class BeerIndex extends Component {
             this.handleSearchOne(beer.id, event)
           }}
           style={{ borderRadius: '7px', boxShadow: ' -.3px .5px 0px .5px grey', display: 'flex', height: '240px', marginLeft: '5px', marginRight: '5px', marginBottom: '20px', padding: '10px', width: '400px' }} >
-          <Card.Title className="clear" onClick={this.changeStar} style={{ color: '#01d1b2', display: 'flex', justifyContent: 'flex-end' }}>&#9734;</Card.Title>
+          <Card.Title className="clear" style={{ color: '#01d1b2', display: 'flex', justifyContent: 'flex-end' }}>&#9734;</Card.Title>
           <Card.Body className="card-body" style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
             <div>
               <Card.Img src={beer.image_url} style={{ height: '160px', width: '70px' }} alt='image of the selected beer'/>
@@ -175,6 +187,8 @@ class BeerIndex extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', margin: '10px' }}>
+        <h1>Welcome to our favorites!</h1>
+        <p>Below is a random favorite of ours! If you want to see more, feel free to search by name/style or simply hit the search button for another random selection!</p>
         {brewSearch}
         {beerJsx}
       </div>
@@ -182,4 +196,4 @@ class BeerIndex extends Component {
   }
 }
 
-export default withRouter(BeerIndex)
+export default withRouter(Favorites)
