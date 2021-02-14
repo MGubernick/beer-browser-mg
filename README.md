@@ -1,6 +1,6 @@
 # Welcome to Beer-Browser-MG Repo
 
-This Repository is for the simple beer sear application, Beans Love Beer.
+This Repository is for the simple beer-browser application, Beans Love Beer.
 This application allows you to browse a variety of beer options, you can search by style of beer or a beer name if you'd like.  Otherwise, if you're unsure, you can always test your luck with simply clicking the search button and a random beer will be selected for you!
 
 ## Important Links & Resources Used:
@@ -30,11 +30,12 @@ This application allows you to browse a variety of beer options, you can search 
 - As a user, I want to be able to find a random beer if I don't know what to look for
 
 ## Technologies Used:
-- CSS
-- Bootstrap
+- HTML/CSS
+- Bootstrap/React-Bootstrap
 - Javascript
-- React
+- React.js
 - Axios
+- [PunkAPI](https://punkapi.com/)
 
 ## Unsolved Problems:
 - 'Like' star button so users can 'like' their favorites
