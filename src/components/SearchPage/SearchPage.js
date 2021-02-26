@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import Card from 'react-bootstrap/Card'
-// import Form from 'react-bootstrap/Form'
-// import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
-import { beerIndex, searchBeer, randoBeer } from './../../api/beer.js'
+import { beerIndexSearch, searchBeer, randoBeer } from './../../api/beer.js'
 
-class BeerIndex extends Component {
+class SearchPage extends Component {
   constructor (props) {
     super(props)
 
@@ -83,7 +83,7 @@ class BeerIndex extends Component {
 
   componentDidMount () {
     const { msgAlert } = this.props
-    beerIndex()
+    beerIndexSearch()
       .then(res => {
         this.setState({ beers: res.data })
       })
@@ -101,7 +101,7 @@ class BeerIndex extends Component {
 
   render () {
     const { beers } = this.state
-    // let brewSearch
+    let brewSearch
     let beerJsx
 
     if (beers.length === 1) {
@@ -151,35 +151,35 @@ class BeerIndex extends Component {
     }
 
     if (!beers) {
-      beerJsx = 'Loading...'
+      brewSearch = 'Loading...'
     } else {
-      // brewSearch = (
-      //   <div style={{ marginTop: '50px', marginBottom: '5px', display: 'flex', justifyContent: 'center' }}>
-      //     <Form onSubmit={this.handleSubmitSearch} style={{ display: 'flex', flexDirection: 'row' }}>
-      //       <Form.Group controlId="formBasicTitle">
-      //         <Form.Control
-      //           style={{ border: '1px solid #ebebeb', borderStyle: 'inset', fontSize: '25px', height: '55px', marginLeft: '150px', width: '650px' }}
-      //           type="text"
-      //           name="search"
-      //           placeholder="Search for beer..."
-      //           onChange={this.handleChange}
-      //         />
-      //       </Form.Group>
-      //       <Button style={{ fontSize: '20px', height: '55px', marginRight: '150px', width: '100px' }} variant="secondary" type="submit">
-      //         Search
-      //       </Button>
-      //     </Form>
-      //   </div>
-      // )
+      brewSearch = (
+        <div style={{ marginTop: '50px', marginBottom: '5px', display: 'flex', justifyContent: 'center' }}>
+          <Form onSubmit={this.handleSubmitSearch} style={{ display: 'flex', flexDirection: 'row' }}>
+            <Form.Group controlId="formBasicTitle">
+              <Form.Control
+                style={{ border: '1px solid #ebebeb', borderStyle: 'inset', fontSize: '25px', height: '55px', marginLeft: '150px', width: '650px' }}
+                type="text"
+                name="search"
+                placeholder="Search for beer..."
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Button style={{ fontSize: '20px', height: '55px', marginRight: '150px', width: '100px' }} variant="secondary" type="submit">
+              Search
+            </Button>
+          </Form>
+        </div>
+      )
     }
 
     return (
       <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: '10px' }}>
-        <div style={{ margin: '50px 0px 50px 0px' }}><h1>Let&apos;s Browse The Brews!</h1></div>
+        <div style={{ margin: '50px 0px 50px 0px' }}><h1>{brewSearch}</h1></div>
         <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>{beerJsx}</div>
       </div>
     )
   }
 }
 
-export default withRouter(BeerIndex)
+export default withRouter(SearchPage)

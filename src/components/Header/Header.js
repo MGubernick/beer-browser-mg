@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar'
 const alwaysOptions = (
   <Fragment>
     <Nav.Link href="#index" style={{ fontSize: '30px' }}>Home</Nav.Link>
+    <Nav.Link href="#search" style={{ fontSize: '30px' }}>Search Brews</Nav.Link>
     {/* <Nav.Link href="#search">Browse</Nav.Link> */}
     <Nav.Link href="#favorites" style={{ fontSize: '30px' }}>Favorites</Nav.Link>
   </Fragment>

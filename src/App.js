@@ -9,6 +9,7 @@ import Header from './components/Header/Header'
 import BeerIndex from './components/BrowserPage/BrowserPage'
 import SearchBeer from './components/SearchFor/SearchFor'
 import Favorites from './components/Favorites/Favorites'
+import SearchPage from './components/SearchPage/SearchPage'
 // import ResetPage from './components/ResetPage/ResetPage'
 // import SignIn from './components/SignIn/SignIn'
 // import SignOut from './components/SignOut/SignOut'
@@ -65,6 +66,9 @@ class App extends Component {
           )} />
           <Route path='/favorites' render={() => (
             <Favorites msgAlert={this.msgAlert} user={user} />
+          )} />
+          <Route exact path='/search' render={() => (
+            <SearchPage msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

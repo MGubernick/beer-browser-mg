@@ -9,6 +9,14 @@ export const beerIndex = () => {
   })
 }
 
+// Index for homepage
+export const beerIndexSearch = () => {
+  return axios({
+    url: apiUrl + '/beers?per_page=9&?page=1',
+    method: 'GET'
+  })
+}
+
 // beer search
 export const searchBeer = (searchFor) => {
   return axios({
