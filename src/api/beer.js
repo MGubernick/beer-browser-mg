@@ -4,7 +4,7 @@ import axios from 'axios'
 // Index for homepage
 export const beerIndex = () => {
   return axios({
-    url: apiUrl + '/beers?per_page=9&?page=1',
+    url: apiUrl + '/beers?per_page=20&?page=1',
     method: 'GET'
   })
 }
