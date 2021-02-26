@@ -175,7 +175,7 @@ class BeerIndex extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', margin: '10px' }}>
-        <h1>Let&apos;s Browse The Brews!</h1>
+        <div><h1>Let&apos;s Browse The Brews!</h1></div>
         {beerJsx}
       </div>
     )
